@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Despesas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Gerenciador de Despesas</h2>
+
+        <form id="form-despesa">
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="" disabled selected>Escolha a categoria</option>
+                <option value="cartao">Cartão de Crédito</option>
+                <option value="empresa">Empresa</option>
+                <option value="casa">Casa</option>
+            </select>
+            
+            <!-- Detalhes da despesa (especificados após a escolha da categoria) -->
+            <div id="detalhes-container"></div>
+            
+            <label for="valor">Valor:</label>
+            <input type="number" id="valor" name="valor" required>
+
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <div id="lista-despesas"></div>
+    </div>
+
+    <!-- Botão de Sair fixo no canto inferior direito -->
+    <button id="btn-sair" class="sair-fixo">Sair</button>
+
+    <script>
+        // Evento do botão de sair
+        document.getElementById("btn-sair").addEventListener("click", function () {
+            window.location.href = "index.html"; // Redireciona para a página de login
+        });
+
+        // Pegando os elementos principais da página
+        const categoriaSelect = document.getElementById("categoria"); // Seleção de categorias
+        const detalhesContainer = document.getElementById("detalhes-container"); // Container para detalhes da despesa
+        const form = document.getElementById("form-despesa"); // Formulário para enviar a despesa
+        const listaDespesas = document.getElementById("lista-despesas"); // Lista para exibir as despesas cadastradas
+
+        // Evento para detectar a mudança de categoria
+        categoriaSelect.addEventListener("change", atualizarDetalhes);
+
+        // Função para atualizar os detalhes da despesa de acordo com a categoria escolhida
+        function atualizarDetalhes() {
+            const categoria = categoriaSelect.value; // Categoria escolhida
+            detalhesContainer.innerHTML = ""; // Limpar o conteúdo anterior
+
+            // Se a categoria for "Cartão de Crédito"
+            if (categoria === "cartao") {
+                const label = document.createElement("label");
+                label.textContent = "Cartão de Crédito:";
+                const select = document.createElement("select");
+                select.name = "detalhe";
+                select.required = true;
+
+                // Adicionando "Escolha a despesa" como a primeira opção
+                const optionEscolha = document.createElement("option");
+                optionEscolha.value = "";
+                optionEscolha.textContent = "Escolha a despesa";
+                select.appendChild(optionEscolha);
+
+                // Adicionando as despesas do Cartão de Crédito
+                const opcoes = ["Porto Infinite", "Santander", "Khelf"];
+                opcoes.forEach(opcao => {
+                    const option = document.createElement("option");
+                    option.value = opcao;
+                    option.textContent = opcao;
+                    select.appendChild(option);
+                });
+
+                detalhesContainer.appendChild(label);
+                detalhesContainer.appendChild(select);
+            }
+            // Se a categoria for "Empresa"
+            else if (categoria === "empresa") {
+                const label = document.createElement("label");
+                label.textContent = "Despesa da empresa:";
+                const select = document.createElement("select");
+                select.name = "detalhe";
+                select.required = true;
+
+                // Adicionando "Escolha a despesa" como a primeira opção
+                const optionEscolha = document.createElement("option");
+                optionEscolha.value = "";
+                optionEscolha.textContent = "Escolha a despesa";
+                select.appendChild(optionEscolha);
+
+                // Adicionando as despesas da Empresa
+                const opcoes = ["Imposto", "Contador", "Vivo Fibra", "Locaweb"];
+                opcoes.forEach(opcao => {
+                    const option = document.createElement("option");
+                    option.value = opcao;
+                    option.textContent = opcao;
+                    select.appendChild(option);
+                });
+
+                detalhesContainer.appendChild(label);
+                detalhesContainer.appendChild(select);
+            }
+            // Se a categoria for "Casa"
+            else if (categoria === "casa") {
+                const label = document.createElement("label");
+                label.textContent = "Despesa da casa:";
+                const select = document.createElement("select");
+                select.name = "detalhe";
+                select.required = true;
+
+                // Adicionando "Escolha a despesa" como a primeira opção
+                const optionEscolha = document.createElement("option");
+                optionEscolha.value = "";
+                optionEscolha.textContent = "Escolha a despesa";
+                select.appendChild(optionEscolha);
+
+                // Adicionando as despesas da Casa
+                const opcoes = [
+                    "Aluguel", "Água", "Luz", "Vivo Celular",
+                    "Financiamento do Carro", "Ipva Carro", "Ipva Moto",
+                    "Gráfica", "Gasolina", "Correio"
+                ];
+
+                opcoes.forEach(opcao => {
+                    const option = document.createElement("option");
+                    option.value = opcao;
+                    option.textContent = opcao;
+                    select.appendChild(option);
+                });
+
+                detalhesContainer.appendChild(label);
+                detalhesContainer.appendChild(select);
+            }
+        }
+
+        // Função para tratar o envio do formulário
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
+
+            const categoria = categoriaSelect.value; // Categoria escolhida
+            const valor = document.getElementById("valor").value; // Valor da despesa
+            const detalhe = form.elements["detalhe"]?.value; // Detalhe da despesa
+
+            // Verifica se o usuário escolheu uma despesa válida
+            if (!detalhe || detalhe === "") {
+                alert("Por favor, escolha uma despesa válida.");
+                return; // Se não for válida, o formulário não é enviado
+            }
+
+            // Criando o item da despesa
+            const item = document.createElement("div");
+            item.className = "item-despesa";
+
+            // Criando o texto da despesa
+            const texto = document.createElement("span");
+            texto.textContent = `${categoria.charAt(0).toUpperCase() + categoria.slice(1)} - ${detalhe}: R$ ${parseFloat(valor).toFixed(2)}`;
+            item.appendChild(texto);
+
+            // Adicionando o botão de excluir se a categoria for "Casa" ou "Empresa"
+            if (categoria === "casa" || categoria === "empresa") {
+                const btnExcluir = document.createElement("button");
+                btnExcluir.textContent = "Excluir";
+                btnExcluir.className = "btn-excluir";
+                btnExcluir.onclick = function () {
+                    listaDespesas.removeChild(item); // Remover a despesa da lista
+                };
+                item.appendChild(btnExcluir);
+            }
+
+            listaDespesas.appendChild(item); // Adiciona a despesa na lista
+            form.reset(); // Limpa o formulário
+            detalhesContainer.innerHTML = ""; // Limpa os detalhes da despesa
+        });
+    </script>
+</body>
+</html>
