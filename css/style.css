@@ -107,3 +107,14 @@ button:hover {
 .sair-fixo:hover {
     background-color: #c9302c;
 }
+
+/* ===== Rodapé da Página ===== */
+footer.rodape {
+    text-align: center;
+    background-color: #f1f1f1;
+    padding: 15px 10px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid #ccc;
+}
+

@@ -4,8 +4,111 @@
     <meta charset="UTF-8">
     <title>Login - Gerenciador de Despesas</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ===== Estilos Gerais da Página ===== */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Garante que o rodapé fique no final */
+        }
+
+        /* ===== Cabeçalho com título e logo ===== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .titulo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        /* ===== Container do formulário de login ===== */
+        .container.login-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex: 1; /* Ocupa o espaço entre o header e o footer */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* ===== Responsividade do Cabeçalho ===== */
+        @media (max-width: 768px) {
+            .logo {
+                width: 200px;
+                height: 200px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- ===== Cabeçalho com logo da empresa ===== -->
+    <header>
+        <div class="titulo">Gerenciador de Despesas</div>
+        <img src="imagens/Logo Grupo R&D - Cinza.jpg" alt="RD Grupo" class="logo">
+    </header>
+
+    <!-- ===== Formulário de Login ===== -->
     <div class="container login-container">
         <h2>Login</h2>
         <form id="form-login">
@@ -19,7 +122,20 @@
         </form>
     </div>
 
+    <!-- ===== Rodapé da Página ===== -->
+    <footer class="rodape">
+        <p>Gerenciador de Despesas &copy; <span id="ano"></span>. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- ===== Script de Login e Atualização do Ano ===== -->
     <script src="js/login.js"></script>
+    <script>
+        // Atualiza automaticamente o ano no rodapé
+        document.getElementById("ano").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
+
+
+
 
